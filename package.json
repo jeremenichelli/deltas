@@ -1,0 +1,28 @@
+{
+  "name": "deltas",
+  "version": "0.0.1",
+  "description": "Library to configure and listen to device motion changes based on defined delta variations for each angle",
+  "main": "dist/deltas.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremenichelli/deltas.git"
+  },
+  "keywords": [
+    "delta",
+    "deltas",
+    "device",
+    "orientation",
+    "motion",
+    "mobile",
+    "ui"
+  ],
+  "author": "Jeremias Menichelli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeremenichelli/deltas/issues"
+  },
+  "homepage": "https://github.com/jeremenichelli/deltas#readme"
+}
