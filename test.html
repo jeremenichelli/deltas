@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>deltas test page</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #fefefe;
+      color: #202020;
+    }
+  </style>
+  <script src="src/deltas.js"></script>
+</head>
+<body>
+  <div id="accelerometer">
+    <p>
+      <strong>rotation</strong>
+      <ul>
+        <li><strong>alpha: </strong></li>
+        <li><strong>beta: </strong></li>
+        <li><strong>gamma: </strong></li>
+      </ul>
+    </p>
+  </div>
+  <div id="deltas">
+    <p>
+      <strong>deltas</strong>
+      <ul>
+        <li><strong>alpha: </strong><em id="alpha">0</em></li>
+        <li><strong>beta: </strong><em id="beta">0</em></li>
+        <li><strong>gamma: </strong><em id="gamma">0</em></li>
+      </ul>
+    </p>
+  </div>
+  <script>
+    const accelerometer = document.getElementById('accelerometer');
+
+    window.addEventListener('deviceorientation', function(e) {
+      accelerometer.innerHTML = `
+        <p>
+          <strong>rotation</strong>
+          <ul>
+            <li><strong>alpha: </strong>${e.alpha}</li>
+            <li><strong>beta: </strong>${e.beta}</li>
+            <li><strong>gamma: </strong>${e.gamma}</li>
+          </ul>
+        </p>
+      `;
+    }, true);
+
+    // alpha - from 0deg to 360deg - spins over z axis
+    // beta - from -180deg to 180deg - spins over x axis
+    // gamma - from -90deg to 90deg - spins over y axis
+  </script>
+
+  <script>
+    const elements = {
+      alpha: document.getElementById('alpha'),
+      beta: document.getElementById('beta'),
+      gamma: document.getElementById('gamma')
+    };
+
+    window.addEventListener('load', _ => {
+      var listener = new deltas.Listener({
+        delta: 10,
+        action: (strengh, value) => {
+          elements[ value ].innerHTML = strengh;
+        },
+        alpha: {
+          delta: 20,
+          action: (strengh, value) => {
+            elements[ value ].innerHTML = strengh;
+            console.log('logging this cause i am special');
+          },
+        }
+      })
+    });
+  </script>
+</body>
+</html>
