@@ -63,8 +63,10 @@
       gamma: document.getElementById('gamma')
     };
 
+    let listener;
+
     window.addEventListener('load', _ => {
-      var listener = new deltas.Listener({
+      listener = new deltas.Listener({
         delta: 10,
         action: (strengh, value) => {
           elements[ value ].innerHTML = strengh;

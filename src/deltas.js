@@ -62,24 +62,39 @@
         config.action ||
         noop;
 
-      // start listen to orientation changes
-      window.addEventListener('deviceorientation', e => {
-        orientations.map(o => {
-          const delta = this._reachedDelta(o, e[o]);
+      // error when delta is not natural
+      if (
+        this._alphaDelta < 0 ||
+        this._betaDelta < 0 ||
+        this._gammaDelta < 0) {
+        new RangeError('Deltas passed must be positive', config);
+      }
 
-          if (delta !== this[ `_${o}Last` ]) {
-            this[ `_${o}Last` ] = delta;
-            // when delta is reached pass strengh and value string
-            this[ `_${o}Action` ].call(null, delta, o);
-          }
-        });
-      });
+      this._onOrientationChange = this._onOrientationChange.bind(this);
+
+      // start listen to orientation changes
+      window.addEventListener('deviceorientation', this._onOrientationChange);
     }
     _reachedDelta(instance, value) {
       const delta = this[ `_${instance}Delta` ];
 
       // return amount of delta reached
-      return Math.floor(value/delta);
+      return Math.trunc(value/delta);
+    }
+    _onOrientationChange(e) {
+      orientations.map(o => {
+        const delta = this._reachedDelta(o, e[o]);
+
+        if (delta !== this[ `_${o}Last` ]) {
+          this[ `_${o}Last` ] = delta;
+          // when delta is reached pass strengh and value string
+          this[ `_${o}Action` ].call(null, delta, o);
+        }
+      });
+    }
+    stop() {
+      // stop listen to orientation changes
+      window.removeEventListener('deviceorientation', this._onOrientationChange);
     }
   }
 
