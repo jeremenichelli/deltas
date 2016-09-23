@@ -4,7 +4,7 @@
   "description": "Library to configure and listen to device motion changes based on defined delta variations for each angle",
   "main": "dist/deltas.js",
   "scripts": {
-    "test": "npm test"
+    "test": "ava test/deltas.spec.js --verbose"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,20 @@
   "bugs": {
     "url": "https://github.com/jeremenichelli/deltas/issues"
   },
-  "homepage": "https://github.com/jeremenichelli/deltas#readme"
+  "ava": {
+    "require": [
+      "./test/helpers/setupBrowserEnv.js",
+      "babel-register"
+    ]
+  },
+  "homepage": "https://github.com/jeremenichelli/deltas#readme",
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-2": "^6.13.0",
+    "babel-register": "^6.14.0",
+    "jsdom": "^9.5.0",
+    "sinon": "^1.17.6"
+  }
 }

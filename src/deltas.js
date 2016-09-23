@@ -1,7 +1,14 @@
-(function (root, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (root.deltas = factory());
+(function(root, factory) {
+  'use strict';
+  if (typeof define === 'function' && define.amd) {
+    define(function() {
+      return factory();
+    });
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.deltas = factory();
+  }
 })(this, function() {
   'use strict';
 
@@ -70,6 +77,7 @@
         new RangeError('Deltas passed must be positive', config);
       }
 
+      // generate bound event to later remove listener
       this._onOrientationChange = this._onOrientationChange.bind(this);
 
       // start listen to orientation changes
@@ -98,7 +106,5 @@
     }
   }
 
-  return {
-    Listener
-  };
+  return { Listener };
 });
