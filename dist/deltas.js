@@ -1,0 +1,117 @@
+/* deltas v0.0.1 - 2016 Jeremias Menichelli - MIT License */
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (factory((global.deltas = global.deltas || {})));
+}(this, (function (exports) { 'use strict';
+
+  const orientations = [ 'alpha', 'beta', 'gamma' ];
+
+  /**
+   * Reference to empty function
+   * @method noop
+   */
+  const noop = function() {};
+
+  /**
+   * Instance which listens motion on one or many and triggers actions
+   * @class Listener
+   * @param {Object} config
+   */
+  class Listener {
+    constructor(config = {}) {
+      this._alphaLast = 0;
+      this._betaLast = 0;
+      this._gammaLast = 0;
+
+      this._delta = config.delta || 0;
+
+      // config for alpha (z axis)
+      this._alphaDelta =
+        config.alpha &&
+        config.alpha.delta ||
+        this._delta;
+
+      this._alphaAction =
+        config.alpha &&
+        config.alpha.action ||
+        config.action ||
+        noop;
+
+      // config for beta (x axis)
+      this._betaDelta =
+        config.beta &&
+        config.beta.delta ||
+        this._delta;
+
+      this._betaAction =
+        config.beta &&
+        config.beta.action ||
+        config.action ||
+        noop;
+
+      // config for gamma (y axis)
+      this._gammaDelta =
+        config.gamma &&
+        config.gamma.delta ||
+        this._delta;
+
+      this._gammaAction =
+        config.gamma &&
+        config.gamma.action ||
+        config.action ||
+        noop;
+
+      // error when delta is not natural
+      if (
+        this._alphaDelta < 0 ||
+        this._betaDelta < 0 ||
+        this._gammaDelta < 0) {
+        throw new RangeError('Deltas passed must be positive integers', config);
+      }
+
+      // generate bound event to later remove listener
+      this._onOrientationChange = this._onOrientationChange.bind(this);
+
+      // start listen to orientation changes
+      window.addEventListener('deviceorientation', this._onOrientationChange);
+    }
+    _reachedDelta(instance, value) {
+      const delta = this[ `_${instance}Delta` ];
+
+      // return amount of delta reached
+      return Math.trunc(value/delta);
+    }
+
+    /**
+     * Function call when deviceorientation event is fired
+     * @method _onOrientationChange
+     * @param {Event} e
+     */
+    _onOrientationChange(e) {
+      orientations.map(o => {
+        const delta = this._reachedDelta(o, e[o]);
+
+        if (delta !== this[ `_${o}Last` ]) {
+          this[ `_${o}Last` ] = delta;
+          // when delta is reached pass strengh and value string
+          this[ `_${o}Action` ].call(null, delta, o);
+        }
+      });
+    }
+
+    /**
+     * Stops listening to deviceorientation event
+     * @method stop
+     */
+    stop() {
+      // stop listen to orientation changes
+      window.removeEventListener('deviceorientation', this._onOrientationChange);
+    }
+  }
+
+  exports.Listener = Listener;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
