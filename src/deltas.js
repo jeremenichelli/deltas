@@ -74,7 +74,7 @@
         this._alphaDelta < 0 ||
         this._betaDelta < 0 ||
         this._gammaDelta < 0) {
-        new RangeError('Deltas passed must be positive', config);
+        throw new RangeError('Deltas passed must be positive integers', config);
       }
 
       // generate bound event to later remove listener
