@@ -140,6 +140,24 @@ test('Custom action is called for gamma angle', t => {
   t.false(defaultAction.called);
 });
 
+test('Custom delta can be set', t => {
+  let defaultAction = sinon.spy();
+
+  testListener = new Listener({
+    delta: 10,
+    action: defaultAction,
+    gamma: {
+      delta: 50
+    }
+  });
+
+  simulateOrientation(0, 0, 30);
+  simulateOrientation(0, 0, 40);
+  simulateOrientation(0, 0, 50);
+
+  t.true(defaultAction.calledOnce);
+});
+
 test('Does not throws error when action is not provided', t => {
   testListener = new Listener({
     delta: 10

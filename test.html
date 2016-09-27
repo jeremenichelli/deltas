@@ -67,16 +67,9 @@
 
     window.addEventListener('load', _ => {
       listener = new deltas.Listener({
-        delta: 10,
+        delta: 1,
         action: (strengh, value) => {
           elements[ value ].innerHTML = strengh;
-        },
-        alpha: {
-          delta: 20,
-          action: (strengh, value) => {
-            elements[ value ].innerHTML = strengh;
-            console.log('logging this cause i am special');
-          },
         }
       })
     });
