@@ -1,6 +1,6 @@
 {
   "name": "deltas",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Library to configure and listen to device motion changes based on defined delta variations for each angle",
   "main": "dist/deltas.js",
   "scripts": {
