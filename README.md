@@ -48,7 +48,7 @@ The beta angle swirls around the x axis, which is the one that crosses the devic
 The gamma angle swirls around the y axis, which is the one that crosses the device from top to bottom and goes from `-90` to `90`, being zero when is to rest horizontally.
 
 
-_Orientation angles can be hard to figure, I recommend MDN article about them https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Orientation_and_motion_data_explained_
+_Orientation angles can be hard to figure, I recommend this MDN article about them: https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Orientation_and_motion_data_explained_
 
 
 ### Set it up
@@ -135,12 +135,12 @@ let listener = new Listener({
 ```
 
 
-## Disclaimer
+### Disclaimer
 
 Deltas listeners were tested in latest Chrome mobile, latest Opera mini and Safari mobile 10 so further. The script is also written in ES2015 which works well on modern mobile browsers but would need transpiling for older versions.
 
 
-If you create fun stuff with let me know!
+_If you create fun stuff with it, let me know!_
 
 
 
